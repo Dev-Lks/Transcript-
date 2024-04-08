@@ -4,6 +4,15 @@ import { useEffect, useState, useRef } from "react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 // Declare the global interface for the webkitSpeechRecognition object
 declare global {
@@ -17,6 +26,7 @@ const MainSpeech = () => {
   const [isRecording, setIsRecording] = useState(false); // Indicates if recording is in progress
   const [recordingComplete, setRecordingComplete] = useState(false); // Indicates if recording is complete
   const [transcript, setTranscript] = useState(""); // Stores the transcribed speech
+  const [lang, setlang] = useState("pt-BR");
 
   // Reference to the webkitSpeechRecognition object
   const recognitionRef = useRef<any>(null);
@@ -29,6 +39,7 @@ const MainSpeech = () => {
     recognitionRef.current = new window.webkitSpeechRecognition();
     recognitionRef.current.continuous = true; // Enable continuous speech recognition
     recognitionRef.current.interimResults = true; // Enable interim results
+    recognitionRef.current.lang = lang;
 
     // Event handler for speech recognition results
     recognitionRef.current.onresult = (event: any) => {
@@ -42,7 +53,6 @@ const MainSpeech = () => {
     recognitionRef.current.start();
     console.log("Recording started");
   };
-
   // Clean up function to stop the recording
   useEffect(() => {
     return () => {
@@ -70,39 +80,55 @@ const MainSpeech = () => {
     }
   };
 
-  console.log("Transcript: ", transcript);
-
   return (
-    <Card className="w-1/3">
-      <CardHeader>
-        <CardTitle>Transcript</CardTitle>
+    <div className="w-full h-full flex flex-col justify-center items-center ">
+      <div className="absolute top-10">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Language</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Language</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup value={lang} onValueChange={setlang}>
+              <DropdownMenuRadioItem value="pt-BR">
+                Português
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="en-US">
+                English
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
-        {(isRecording || transcript) && (
-          <div>
-            {(isRecording || transcript) && (
+      <Card className="w-1/3">
+        <CardHeader>
+          <CardTitle>Transcript to {(lang == "pt-BR") ? "Português": "English"}</CardTitle>
 
+          {(isRecording || transcript) && (
+            <div>
+              {(isRecording || transcript) && (
                 <p className="text-sm text-muted-foreground">
                   {recordingComplete
                     ? "Thanks for talking."
                     : "Start speaking..."}
                 </p>
+              )}
+            </div>
+          )}
+        </CardHeader>
 
-            )}
-          </div>
-        )}
-      </CardHeader>
+        <CardContent>{transcript}</CardContent>
 
-      <CardContent>{transcript}</CardContent>
+        <div className="w-full flex justify-end px-6 mb-6 gap-4">
+          <Button onClick={handleToggleRecording} className="rounded-full bg-red-500">
+            {isRecording ? "Stop" : "REC"}
+          </Button>
 
-      <div className="w-full flex justify-end px-6 mb-6 gap-4">
-        <Button onClick={startRecording} className="rounded-full bg-red-500">
-          Rec
-        </Button>
-        <Button onClick={stopRecording} className="rounded-full">
-          Stop
-        </Button>
-      </div>
-    </Card>
+        </div>
+      </Card>
+    </div>
   );
 };
 
