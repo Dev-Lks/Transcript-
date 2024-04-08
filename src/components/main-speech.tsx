@@ -26,7 +26,7 @@ const MainSpeech = () => {
   const [isRecording, setIsRecording] = useState(false); // Indicates if recording is in progress
   const [recordingComplete, setRecordingComplete] = useState(false); // Indicates if recording is complete
   const [transcript, setTranscript] = useState(""); // Stores the transcribed speech
-  const [lang, setlang] = useState("pt-BR");
+  const [lang, setlang] = useState("select");
 
   // Reference to the webkitSpeechRecognition object
   const recognitionRef = useRef<any>(null);
@@ -82,29 +82,32 @@ const MainSpeech = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
-      <div className="absolute top-10">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">Language</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Language</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup value={lang} onValueChange={setlang}>
-              <DropdownMenuRadioItem value="pt-BR">
-                Português
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="en-US">
-                English
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
 
       <Card className="w-1/3">
         <CardHeader>
-          <CardTitle>Transcript to {(lang == "pt-BR") ? "Português": "English"}</CardTitle>
+          <CardTitle>Transcript to {lang && (
+            <div className="inline" >
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <h2 className="inline cursor-pointer border-b border-secondary">
+                  {lang === "pt-BR" ? "Português" : lang === "en-US" ? "English" : "Select a language"}
+                </h2>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Language</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup value={lang} onValueChange={setlang}>
+                  <DropdownMenuRadioItem value="pt-BR">
+                    Português
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="en-US">
+                    English
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          )}</CardTitle>
 
           {(isRecording || transcript) && (
             <div>
@@ -120,6 +123,7 @@ const MainSpeech = () => {
         </CardHeader>
 
         <CardContent>{transcript}</CardContent>
+
 
         <div className="w-full flex justify-end px-6 mb-6 gap-4">
           <Button onClick={handleToggleRecording} className="rounded-full bg-red-500">
