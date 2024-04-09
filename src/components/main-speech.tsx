@@ -82,32 +82,41 @@ const MainSpeech = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
-
-      <Card className="w-1/2 h-1/3 flex flex-col justify-between">
+      <Card className="w-[70%] md:w-1/2 h-1/3 flex flex-col justify-between">
         <CardHeader>
-          <CardTitle >Transcript to {lang && (
-            <div className="inline" >
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <h2 className="inline cursor-pointer border-b border-secondary">
-                  {lang === "pt-BR" ? "Português" : lang === "en-US" ? "English" : "Select a language"}
-                </h2>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Language</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup value={lang} onValueChange={setlang}>
-                  <DropdownMenuRadioItem value="pt-BR">
-                    Português
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="en-US">
-                    English
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          )}</CardTitle>
+          <CardTitle>
+            Transcript to{" "}
+            {lang && (
+              <div className="inline">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <h2 className="inline cursor-pointer border-b border-secondary">
+                      {lang === "pt-BR"
+                        ? "Português"
+                        : lang === "en-US"
+                        ? "English"
+                        : "Select a language"}
+                    </h2>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Language</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup
+                      value={lang}
+                      onValueChange={setlang}
+                    >
+                      <DropdownMenuRadioItem value="pt-BR">
+                        Português
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="en-US">
+                        English
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
+          </CardTitle>
 
           {(isRecording || transcript) && (
             <div>
@@ -122,15 +131,18 @@ const MainSpeech = () => {
           )}
         </CardHeader>
 
-        <CardContent>{transcript}</CardContent>
-
-
-        <div className="w-full flex justify-end px-6 mb-6 gap-4">
-          <Button disabled={lang !== "pt-BR" && lang !== "en-US"} onClick={handleToggleRecording} className="rounded-full border-red-500">
-            {isRecording ? "Stop" : "REC"}
-          </Button>
-          
-        </div>
+        <CardContent>
+          {transcript}
+          <div className="w-full flex justify-end px-6 mb-6 gap-4">
+            <Button
+              disabled={lang !== "pt-BR" && lang !== "en-US"}
+              onClick={handleToggleRecording}
+              className="rounded-full border-red-500"
+            >
+              {isRecording ? "Stop" : "REC"}
+            </Button>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
