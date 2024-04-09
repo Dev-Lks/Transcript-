@@ -83,9 +83,9 @@ const MainSpeech = () => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
 
-      <Card className="w-1/3">
+      <Card className="w-1/2 h-1/3 flex flex-col justify-between">
         <CardHeader>
-          <CardTitle>Transcript to {lang && (
+          <CardTitle >Transcript to {lang && (
             <div className="inline" >
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
