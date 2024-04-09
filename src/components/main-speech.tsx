@@ -126,10 +126,10 @@ const MainSpeech = () => {
 
 
         <div className="w-full flex justify-end px-6 mb-6 gap-4">
-          <Button onClick={handleToggleRecording} className="rounded-full bg-red-500">
+          <Button disabled={lang !== "pt-BR" && lang !== "en-US"} onClick={handleToggleRecording} className="rounded-full border-red-500">
             {isRecording ? "Stop" : "REC"}
           </Button>
-
+          
         </div>
       </Card>
     </div>
