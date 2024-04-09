@@ -82,7 +82,7 @@ const MainSpeech = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center ">
-      <Card className="w-[70%] md:w-1/2 h-1/3 flex flex-col justify-between">
+      <Card className="w-[70%] md:w-1/2 h-fit flex flex-col justify-between">
         <CardHeader>
           <CardTitle>
             Transcript to{" "}
@@ -131,8 +131,9 @@ const MainSpeech = () => {
           )}
         </CardHeader>
 
-        <CardContent>
+        <CardContent >
           {transcript}
+          
           <div className="relative bottom-0 right-1 pt-12">
             <Button
               disabled={lang !== "pt-BR" && lang !== "en-US"}
