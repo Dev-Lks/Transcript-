@@ -133,7 +133,7 @@ const MainSpeech = () => {
 
         <CardContent>
           {transcript}
-          <div className="w-full flex justify-end px-6 mb-6 gap-4">
+          <div className="relative bottom-0 right-1 pt-12">
             <Button
               disabled={lang !== "pt-BR" && lang !== "en-US"}
               onClick={handleToggleRecording}
